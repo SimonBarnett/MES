@@ -1,0 +1,26 @@
+﻿<InventoryPacks>
+  <InventoryPack>
+    <InventoryPackNo>Pack1</InventoryPackNo>
+    <Part>1234</Part>
+    <Quantity>1</Quantity>             
+    <Units>ea</Units>  
+    <Location>RHC1</Location>
+    <InventoryState>Available</InventoryState>
+    <ReceivedDT>09/11/2019</ReceivedDT>
+    <UseByDT>12/12/2019</UseByDT>  
+    <Supplier>S12345</Supplier>  
+    <Reference1>ERP</Reference1>  
+    <Reference2>S0001</Reference2>  
+    <Reference3>3</Reference3>  
+    <Reference4></Reference4>
+    <Reference5></Reference5>
+    <Reference6></Reference6>
+    <Reference7></Reference7>
+    <Reference8></Reference8>
+    <Reference9></Reference9>
+    <Reference10></Reference10>
+    <LocationReference1></LocationReference1>
+    <LocationReference2></LocationReference2>
+    <Locationreference3></Locationreference3>       
+  </InventoryPack>
+</InventoryPacks>

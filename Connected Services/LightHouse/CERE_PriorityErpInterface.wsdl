@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CERE_PriorityErpInterface" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://cp2soappsv02.cerespower.com/sfol/UdiScripts/Custom/WebService/CERE_PriorityErpInterface.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://cp2soappsv02.cerespower.com/sfol/UdiScripts/Custom/WebService/CERE_PriorityErpInterface.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://cp2soappsv02.cerespower.com/sfol/UdiScripts/Custom/WebService/CERE_PriorityErpInterface.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Lighthouse.Udi.Scripting" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICERE_PriorityErpInterface_PutInventoryPack_InputMessage">
+    <wsdl:part name="parameters" element="tns:PutInventoryPack" />
+  </wsdl:message>
+  <wsdl:message name="ICERE_PriorityErpInterface_PutInventoryPack_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PutInventoryPackResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICERE_PriorityErpInterface_PutWorksOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:PutWorksOrder" />
+  </wsdl:message>
+  <wsdl:message name="ICERE_PriorityErpInterface_PutWorksOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PutWorksOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICERE_PriorityErpInterface_GetOutboundTransactions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOutboundTransactions" />
+  </wsdl:message>
+  <wsdl:message name="ICERE_PriorityErpInterface_GetOutboundTransactions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOutboundTransactionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICERE_PriorityErpInterface_PutOutboundTransactionUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:PutOutboundTransactionUpdate" />
+  </wsdl:message>
+  <wsdl:message name="ICERE_PriorityErpInterface_PutOutboundTransactionUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PutOutboundTransactionUpdateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ICERE_PriorityErpInterface">
+    <wsdl:operation name="PutInventoryPack">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICERE_PriorityErpInterface/PutInventoryPack" message="tns:ICERE_PriorityErpInterface_PutInventoryPack_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICERE_PriorityErpInterface/PutInventoryPackResponse" message="tns:ICERE_PriorityErpInterface_PutInventoryPack_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PutWorksOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICERE_PriorityErpInterface/PutWorksOrder" message="tns:ICERE_PriorityErpInterface_PutWorksOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICERE_PriorityErpInterface/PutWorksOrderResponse" message="tns:ICERE_PriorityErpInterface_PutWorksOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOutboundTransactions">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICERE_PriorityErpInterface/GetOutboundTransactions" message="tns:ICERE_PriorityErpInterface_GetOutboundTransactions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICERE_PriorityErpInterface/GetOutboundTransactionsResponse" message="tns:ICERE_PriorityErpInterface_GetOutboundTransactions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PutOutboundTransactionUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICERE_PriorityErpInterface/PutOutboundTransactionUpdate" message="tns:ICERE_PriorityErpInterface_PutOutboundTransactionUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICERE_PriorityErpInterface/PutOutboundTransactionUpdateResponse" message="tns:ICERE_PriorityErpInterface_PutOutboundTransactionUpdate_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ICERE_PriorityErpInterface" type="tns:ICERE_PriorityErpInterface">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PutInventoryPack">
+      <soap:operation soapAction="http://tempuri.org/ICERE_PriorityErpInterface/PutInventoryPack" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PutWorksOrder">
+      <soap:operation soapAction="http://tempuri.org/ICERE_PriorityErpInterface/PutWorksOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOutboundTransactions">
+      <soap:operation soapAction="http://tempuri.org/ICERE_PriorityErpInterface/GetOutboundTransactions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PutOutboundTransactionUpdate">
+      <soap:operation soapAction="http://tempuri.org/ICERE_PriorityErpInterface/PutOutboundTransactionUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CERE_PriorityErpInterface">
+    <wsdl:port name="BasicHttpBinding_ICERE_PriorityErpInterface" binding="tns:BasicHttpBinding_ICERE_PriorityErpInterface">
+      <soap:address location="http://cp2soappsv02.cerespower.com/sfol/UdiScripts/Custom/WebService/CERE_PriorityErpInterface.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
