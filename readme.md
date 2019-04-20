@@ -4,8 +4,8 @@
     This SQL Procedure imports available data from the MES:
     <li>Gets OutboundTransactions from the <a href="/Feeds/trans.vb">trans.ashx</a> feed.
     <li>Posts the transactions to the <a href="/Handlers/obt.vb">obt.ashx</a> handler for processing.
-    <li><a href="handlers/obt.vb">obt.ashx</a> deserialises transactions into an array of <a href="/Handlers/loadings/OutboundTransaction.vb">OutboundTransaction</a>s.
-    <li>Depending on the &lt;SourceTransaction&gt; the handler builds the appropriate <a href="/Handlers/loadings/Loadings.vb">loading</a> for each transaction.
+    <li><a href="handlers/obt.vb">obt.ashx</a> deserialises transactions into an array of <a href="/Handlers/Loadings/OutboundTransaction.vb">OutboundTransaction</a>s.
+    <li>Depending on the &lt;SourceTransaction&gt; the handler builds the appropriate <a href="/Handlers/Loadings/Loadings.vb">loading</a> for each transaction.
     <li>The handler then provides sucsess/failure reports back to the MES.
 </p>
 <h2><a href="/Reference/sql/SP/sp_MESInventoryPacks.sql">sp_MESInventoryPacks.sql</a></h2>
