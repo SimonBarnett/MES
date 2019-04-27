@@ -85,26 +85,21 @@ Public Module Loadings
 
     Public Function InventoryUsage(ByRef Trans As OutboundTransaction) As priForm
         With Trans
+
             Using AFORM As New priForm("ALINE_ONE",
-                "SERIALNAME",
-                "ACTNAME"
+                "SERIALNAME"
             )
                 Dim TRANSORDER_S = AFORM.AddForm("TRANSORDER_S",
                     "PARTNAME",
-                    "SERIALNAME",
-                    "WARHSNAME",
-                    "QUANT"
+                    "#QUANT"
                 )
 
                 Dim form As priRow = AFORM.AddRow(
-                        .WONumber,
-                        .Operation
+                        .WONumber
                     )
 
                 TRANSORDER_S.AddRow(form,
                     .Part,
-                    .InventoryPackNo,
-                    .Location,
                     .Quantity
                 )
 

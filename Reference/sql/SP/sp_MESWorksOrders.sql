@@ -1,6 +1,6 @@
 ﻿USE [cpl]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_MESWorksOrders]    Script Date: 04/20/2019 11:44:25 ******/
+/****** Object:  StoredProcedure [dbo].[sp_MESWorksOrders]    Script Date: 04/24/2019 15:13:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -37,22 +37,25 @@ BEGIN
 				[stacktr] varchar(max)
 			)
 		
-		if (@status = 200)
-			-- TODO: Update the sent flag of sucsessful rows
+		if (@status = 200)			
 			begin
-				select	
-					[id],
-					[sucsess],
-					[msg]
-				FROM OPENXML(@hdoc, 'response/row',8)
-				with (
-					[id] varchar(max),
-					[sucsess] varchar(max),
-					[msg] varchar(max)
+				update SERIAL set
+					ZCPL_SENT = 'Y',
+					ZCPL_SEND = ''
+					
+				WHERE SERIALNAME IN (				
+					select	
+						[id]
+					FROM OPENXML(@hdoc, 'response/row',8)
+					with (
+						[id] varchar(max),
+						[sucsess] varchar(max),
+						[msg] varchar(max)
+					)
+					where [sucsess] = 'True'
 				)
-				where [sucsess] = 'True'
-				
 			end	
+			
 		EXEC sp_xml_removedocument @hdoc
 		
 	END TRY

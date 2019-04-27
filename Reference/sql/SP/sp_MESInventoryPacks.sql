@@ -1,6 +1,6 @@
 ﻿USE [cpl]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_MESInventoryPacks]    Script Date: 04/20/2019 11:07:32 ******/
+/****** Object:  StoredProcedure [dbo].[sp_MESInventoryPacks]    Script Date: 04/27/2019 12:52:10 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -37,22 +37,28 @@ BEGIN
 			[stacktr] varchar(max)
 		)
 		
-		if (@status = 200)
-			-- TODO: Update the sent flag of sucsessful rows
+		if (@status = 200)			
 			begin
-				select	
-					[id],
-					[sucsess],
-					[msg]
-				FROM OPENXML(@hdoc, 'response/row',8)
-				with (
-					[id] varchar(max),
-					[sucsess] varchar(max),
-					[msg] varchar(max)
-				)
-				where [sucsess] = 'True'
-				
+				update DOCUMENTS set
+					ZCPL_SENT = 'Y',
+					ZCPL_SEND = ''
+					
+				WHERE 0=0
+					AND DOCUMENTS.TYPE = 'T'
+					AND DOCNO in (				
+						select	
+							[id]
+						FROM OPENXML(@hdoc, 'response/row',8)
+						with (
+							[id] varchar(max),
+							[sucsess] varchar(max),
+							[msg] varchar(max)
+						)
+						where [sucsess] = 'True'
+					)
+									
 			end	
+			
 		EXEC sp_xml_removedocument @hdoc
 		
 	END TRY
@@ -64,3 +70,5 @@ BEGIN
 
 
 END
+
+--EXEC sp_MESInventoryPacks

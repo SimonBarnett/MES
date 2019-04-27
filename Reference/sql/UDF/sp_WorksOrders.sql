@@ -1,6 +1,6 @@
 ﻿USE [cpl]
 GO
-/****** Object:  UserDefinedFunction [dbo].[sp_WorksOrders]    Script Date: 04/20/2019 11:45:49 ******/
+/****** Object:  UserDefinedFunction [dbo].[sp_WorksOrders]    Script Date: 04/27/2019 12:26:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13,39 +13,39 @@ GO
 ALTER FUNCTION [dbo].[sp_WorksOrders]()
 RETURNS xml
 AS
-BEGIN
-	
+BEGIN	
 	RETURN (
 		SELECT (
 			select 
-				SERIALNAME as "WONumber", 
+				SERIAL.SERIALNAME as "WONumber", 
 				'Production' as "WOType", 
 				PART.PARTNAME as "Part", 
 				SERIAL.QUANT / 1000 as "QuantityOrdered", 
-				'12/08/2019' as "PlannedStartDT", 
+				CONVERT ( VARCHAR(20), dbo.MINTODATE(SERIAL.RELEASEDATE), 103 ) as "PlannedStartDT", 
 				'ERP' as "Reference1", 
-				'' as "Reference2", 
-				'' as "Reference3", 
-				'' as "Reference4", 
-				'' as "Reference5", 
-				'STD' as "BOMVariant", 
-				'1234' as "RoutingCode"
+				NULL as "Reference2", 
+				NULL as "Reference3", 
+				NULL as "Reference4", 
+				NULL as "Reference5", 
+				REVISIONS.REVNUM as "BOMVariant", 
+				PROCESS.PROCNAME as "RoutingCode"
 			
 			from SERIAL 
 				join PART on SERIAL.PART = PART.PART
 				join SERIALA on SERIAL.SERIAL = SERIALA.SERIAL
 				join SERIALSTATUS on SERIALA.SERIALSTATUS = SERIALSTATUS.SERIALSTATUS
+				join PROCESS on SERIAL.PRODSERIAL = PROCESS.[T$PROC]
+				join REVISIONS on SERIAL.REV = REVISIONS.REV
 				
 			where 0=0
-				AND SERIAL.CLOSED <> 'C'
 				AND SERIAL.SERIAL > 0
-				AND SERIALSTATUS.RELEASED = 'Y'
+				AND SERIAL.ZCPL_SEND = 'Y'
+				AND SERIAL.ZCPL_SENT = ''								
 				
-			/* TODO:
-				and SERIAL.SEND = 1
-				and SERIAL.SENT = 0
-			*/
-			
+				/* Don't send closed or unreleased */
+				AND SERIAL.CLOSED <> 'C'				
+				AND SERIALSTATUS.RELEASED = 'Y'
+										
 			for XML PATH('WorksOrder'), type 
 		) for XML PATH('WorksOrders'), type
 	)
@@ -53,3 +53,25 @@ BEGIN
 END
 
 --SELECT dbo.sp_WorksOrders()
+
+/*
+-- Mark Serial ZCPL_SEND = 'Y' 
+UPDATE SERIAL set 
+	ZCPL_SEND = 'Y',
+	ZCPL_SENT = ''
+	
+where SERIAL.SERIAL in (
+	select TOP 5 SERIAL.SERIAL						
+		from SERIAL 
+			join PART on SERIAL.PART = PART.PART
+			join SERIALA on SERIAL.SERIAL = SERIALA.SERIAL
+			join SERIALSTATUS on SERIALA.SERIALSTATUS = SERIALSTATUS.SERIALSTATUS
+			
+		where 0=0
+			AND SERIAL.SERIAL > 0
+			--AND SERIAL.ZCPL_SEND = 'Y'								
+			/* Don't send cloased or unreleased */
+			AND SERIAL.CLOSED <> 'C'				
+			AND SERIALSTATUS.RELEASED = 'Y'
+)
+*/

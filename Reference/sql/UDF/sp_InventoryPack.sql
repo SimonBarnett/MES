@@ -1,6 +1,6 @@
 ﻿USE [cpl]
 GO
-/****** Object:  UserDefinedFunction [dbo].[sp_InventoryPack]    Script Date: 04/20/2019 11:45:37 ******/
+/****** Object:  UserDefinedFunction [dbo].[sp_InventoryPack]    Script Date: 04/27/2019 12:48:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17,31 +17,72 @@ BEGIN
 	RETURN (
 		SELECT (
 			select 
-				'1' as "InventoryPackNo",		
-				'' as "Part",
-				'1' as "Quantity",
-				'ea' as "Units",
-				'RHC1' as "Location",
+				DOCUMENTS.DOCNO as "InventoryPackNo",		
+				PART.PARTNAME as "Part",
+				cast(TRANSORDER.TQUANT as decimal) / 1000 as "Quantity",
+				UNIT.UNITNAME as "Units",
+				WAREHOUSES.WARHSNAME as "Location",
 				'Available' as "InventoryState",
-				'09/11/2019' as "ReceivedDT",
-				'12/12/2019' as "UseByDT",
-				'S12345' as "Supplier",
+				
+				--TODO: Where do these dates come from?				
+				CONVERT ( VARCHAR(20), dbo.MINTODATE(DOCUMENTS.CURDATE), 103 ) as "ReceivedDT",
+				CONVERT ( VARCHAR(20), dbo.MINTODATE(DOCUMENTS.CURDATE), 103 ) as "UseByDT",
+				
+				SUPPLIERS.SUPNAME as "Supplier",
 				'ERP' as "Reference1",
 				'S0001' as "Reference2",
-				'' as "Reference3",
-				'' as "Reference4",
-				'' as "Reference5",
-				'' as "Reference6",
-				'' as "Reference7",
-				'' as "Reference8",
-				'' as "Reference9",
-				'' as "Reference10",
-				'' as "LocationReference1",
-				'' as "LocationReference2",
-				'' as "Locationreference3"
+				null as "Reference3",
+				null as "Reference4",
+				null as "Reference5",
+				null as "Reference6",
+				null as "Reference7",
+				null as "Reference8",
+				null as "Reference9",
+				null as "Reference10",
+				null as "LocationReference1",
+				null as "LocationReference2",
+				null as "Locationreference3"
 			
-			for XML PATH('InventoryPack'), type 
+			from DOCUMENTS
+				join TRANSORDER on DOCUMENTS.DOC = TRANSORDER.DOC
+				join PART on TRANSORDER.PART = PART.PART
+				join UNIT on PART.UNIT = UNIT.UNIT
+				join WAREHOUSES on TRANSORDER.TOWARHS = WAREHOUSES.WARHS
+				join PARTPARAM on PARTPARAM.PART = PART.PART
+				left outer join SUPPLIERS on PARTPARAM.SUP = SUPPLIERS.SUP
+				
+			where 0=0
+				AND DOCUMENTS.TYPE = 'T'
+				AND DOCUMENTS.ZCPL_SEND = 'Y'
+			
+			for XML PATH('InventoryPack'), type 			
 		) for XML PATH('InventoryPacks'), type
 	)
 
 END
+
+--select [dbo].[sp_InventoryPack]()
+
+/*
+update DOCUMENTS set 
+	ZCPL_SEND = ''
+where 
+	ZCPL_SEND = 'Y'
+	
+update DOCUMENTS set 
+	ZCPL_SEND = 'Y',
+	ZCPL_SENT = ''
+	
+where DOC in (
+
+	select top 2 DOCUMENTS.DOC
+	from DOCUMENTS 
+		JOIN DOCUMENTSA ON DOCUMENTS.DOC = DOCUMENTSA.DOC
+		JOIN DOCSTATS ON DOCUMENTSA.ASSEMBLYSTATUS = DOCSTATS.DOCSTAT
+		
+	where 0=0
+		and DOCUMENTS.TYPE = 'T'
+		and DOCSTATS.FINALFLAG = 'Y'
+
+)
+*/

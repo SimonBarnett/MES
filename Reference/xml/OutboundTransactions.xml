@@ -1,9 +1,7 @@
 ﻿<OutboundTransactions>
   <OutboundTransaction>
     <ERPOutboundTransactionID>137</ERPOutboundTransactionID>
-    <CreatedDT>
-      1987-05-16 15:00:00 +01:00
-    </CreatedDT>
+    <CreatedDT>1987-05-16 15:00:00 +01:00</CreatedDT>
     <SourceTransaction>InventoryUsage</SourceTransaction>
     <WONumber>100812</WONumber>
     <Part>CSP-11-2131</Part>
@@ -23,9 +21,7 @@
   </OutboundTransaction>
   <OutboundTransaction>
     <ERPOutboundTransactionID>137</ERPOutboundTransactionID>
-    <CreatedDT>
-      1987-05-16 15:00:00 +01:00
-    </CreatedDT>
+    <CreatedDT>1987-05-16 15:00:00 +01:00</CreatedDT>
     <SourceTransaction>BuildRecord</SourceTransaction>
     <WONumber>100812</WONumber>
     <CreatedPart>CSP-11-3456</CreatedPart>
@@ -49,9 +45,7 @@
   </OutboundTransaction>
   <OutboundTransaction>
     <ERPOutboundTransactionID>138</ERPOutboundTransactionID>
-    <CreatedDT>
-      1987-05-16 15:00:00 +01:00
-    </CreatedDT>
+    <CreatedDT>1987-05-16 15:00:00 +01:00</CreatedDT>
     <SourceTransaction>WOCompletion</SourceTransaction>   
     <WONumber>101456</WONumber>
     <Part>CSP-01-1238</Part>
