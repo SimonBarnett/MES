@@ -1,114 +1,114 @@
-﻿Imports System.Xml
-Imports PriPROC6.Interface.Web
+﻿'Imports System.Xml
+'Imports PriPROC6.Interface.Web
 
-Public Module Loadings
+'Public Module Loadings
 
-    Public Function WOCompletion(ByRef Trans As OutboundTransaction) As priForm
-        With Trans
-            Using AFORM As New priForm("ALINE_ONE",
-                "SERIALNAME",
-                "ACTNAME"
-            )
-                Dim TRANSORDER_S = AFORM.AddForm("TRANSORDER_S",
-                    "PARTNAME",
-                    "SERIALNAME",
-                    "QUANT"
-                )
+'    Public Function WOCompletion(ByRef Trans As OutboundTransaction) As priForm
+'        With Trans
+'            Using AFORM As New priForm("ALINE_ONE",
+'                "SERIALNAME",
+'                "ACTNAME"
+'            )
+'                Dim TRANSORDER_S = AFORM.AddForm("TRANSORDER_S",
+'                    "PARTNAME",
+'                    "SERIALNAME",
+'                    "QUANT"
+'                )
 
-                Dim form As priRow = AFORM.AddRow(
-                        .WONumber,
-                        .Operation
-                    )
+'                Dim form As priRow = AFORM.AddRow(
+'                        .WONumber,
+'                        .Operation
+'                    )
 
-                For Each iConsumed As Inventory In .InventoryConsumed
-                    With iConsumed
-                        TRANSORDER_S.AddRow(form,
-                        .InventoryPackPart,
-                        .InventoryPackNo,
-                        .Quantity
-                    )
-                    End With
+'                For Each iConsumed As Inventory In .InventoryConsumed
+'                    With iConsumed
+'                        TRANSORDER_S.AddRow(form,
+'                        .InventoryPackPart,
+'                        .InventoryPackNo,
+'                        .Quantity
+'                    )
+'                    End With
 
-                Next
+'                Next
 
-                For Each iCreated As Inventory In .InventoryCreated
-                    With iCreated
-                        TRANSORDER_S.AddRow(form,
-                        .InventoryPackPart,
-                        .InventoryPackNo,
-                        .Quantity
-                    )
-                    End With
+'                For Each iCreated As Inventory In .InventoryCreated
+'                    With iCreated
+'                        TRANSORDER_S.AddRow(form,
+'                        .InventoryPackPart,
+'                        .InventoryPackNo,
+'                        .Quantity
+'                    )
+'                    End With
 
-                Next
+'                Next
 
-                Return AFORM
+'                Return AFORM
 
-            End Using
+'            End Using
 
-        End With
+'        End With
 
-    End Function
+'    End Function
 
-    Public Function BuildRecord(ByRef Trans As OutboundTransaction) As priForm
-        With Trans
-            Using AFORM As New priForm("ALINE_ONE",
-                "SERIALNAME",
-                "ACTNAME"
-            )
-                Dim TRANSORDER_S = AFORM.AddForm("TRANSORDER_S",
-                    "PARTNAME",
-                    "SERIALNAME",
-                    "WARHSNAME",
-                    "QUANT"
-                )
+'    Public Function BuildRecord(ByRef Trans As OutboundTransaction) As priForm
+'        With Trans
+'            Using AFORM As New priForm("ALINE_ONE",
+'                "SERIALNAME",
+'                "ACTNAME"
+'            )
+'                Dim TRANSORDER_S = AFORM.AddForm("TRANSORDER_S",
+'                    "PARTNAME",
+'                    "SERIALNAME",
+'                    "WARHSNAME",
+'                    "QUANT"
+'                )
 
-                Dim form As priRow = AFORM.AddRow(
-                        .WONumber,
-                        .Operation
-                    )
+'                Dim form As priRow = AFORM.AddRow(
+'                        .WONumber,
+'                        .Operation
+'                    )
 
-                TRANSORDER_S.AddRow(form,
-                    .Part,
-                    .InventoryPackNo,
-                    .Location,
-                    .Quantity
-                )
+'                TRANSORDER_S.AddRow(form,
+'                    .Part,
+'                    .InventoryPackNo,
+'                    .Location,
+'                    .Quantity
+'                )
 
-                Return AFORM
+'                Return AFORM
 
-            End Using
+'            End Using
 
-        End With
+'        End With
 
-    End Function
+'    End Function
 
-    Public Function InventoryUsage(ByRef Trans As OutboundTransaction) As priForm
-        With Trans
+'    Public Function InventoryUsage(ByRef Trans As OutboundTransaction) As priForm
+'        With Trans
 
-            Using AFORM As New priForm("ALINE_ONE",
-                "SERIALNAME"
-            )
-                Dim TRANSORDER_S = AFORM.AddForm("TRANSORDER_S",
-                    "PARTNAME",
-                    "#QUANT"
-                )
+'            Using AFORM As New priForm("ALINE_ONE",
+'                "SERIALNAME"
+'            )
+'                Dim TRANSORDER_S = AFORM.AddForm("TRANSORDER_S",
+'                    "PARTNAME",
+'                    "#QUANT"
+'                )
 
-                Dim form As priRow = AFORM.AddRow(
-                        .WONumber
-                    )
+'                Dim form As priRow = AFORM.AddRow(
+'                        .WONumber
+'                    )
 
-                TRANSORDER_S.AddRow(form,
-                    .Part,
-                    .Quantity
-                )
+'                TRANSORDER_S.AddRow(form,
+'                    .Part,
+'                    .Quantity
+'                )
 
-                Return AFORM
+'                Return AFORM
 
-            End Using
+'            End Using
 
-        End With
+'        End With
 
-    End Function
+'    End Function
 
-End Module
+'End Module

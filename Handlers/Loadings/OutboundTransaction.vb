@@ -55,25 +55,6 @@ Public Class OutboundTransaction : Inherits Xhelper
 
 #End Region
 
-    Public ReadOnly Property AFORM As priForm
-        Get
-            Select Case SourceTransaction
-                Case eSourceTransaction.InventoryUsage
-                    SourceTransaction = eSourceTransaction.InventoryUsage
-                    Return InventoryUsage(Me)
-
-                Case eSourceTransaction.BuildRecord
-                    SourceTransaction = eSourceTransaction.BuildRecord
-                    Return BuildRecord(Me)
-
-                Case Else 'eSourceTransaction.WOCompletion
-                    SourceTransaction = eSourceTransaction.WOCompletion
-                    Return WOCompletion(Me)
-
-            End Select
-        End Get
-    End Property
-
     Sub New(ByRef Trans As XmlNode)
 
         ERPOutboundTransactionID = xValue(Trans, "ERPOutboundTransactionID")

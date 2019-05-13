@@ -102,6 +102,8 @@
     <Compile Include="Handlers\obt.vb" />
     <Compile Include="Handlers\Loadings\OutboundTransaction.vb" />
     <Compile Include="Feeds\trans.vb" />
+    <Compile Include="Schema\ALINE_ONE.vb" />
+    <Compile Include="Schema\TRANSORDER_S.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -167,6 +169,7 @@
     <Content Include="Reference\sql\UDF\sp_WorksOrders.sql" />
     <Content Include="Reference\sql\SP\sp_MESInventoryPacks.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

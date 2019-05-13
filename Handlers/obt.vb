@@ -6,6 +6,7 @@ Imports System.IO
 Imports Newtonsoft.Json
 Imports System.Xml.Serialization
 Imports mes.LightHouse
+Imports System.Reflection
 
 <Export(GetType(xmlHandler))>
 <ExportMetadata("EndPoint", "obt")>
@@ -21,31 +22,70 @@ Public Class obt : Inherits iHandler : Implements xmlHandler
             objX.WriteStartElement("OutboundTransactions")
 
             For Each trans As XmlNode In Request.SelectNodes("OutboundTransactions/OutboundTransaction")
-                objX.WriteStartElement("OutboundTransaction")
 
                 Dim t As New OutboundTransaction(trans)
+
+                objX.WriteStartElement("OutboundTransaction")
                 objX.WriteElementString("ERPOutboundTransactionID", t.ERPOutboundTransactionID)
 
                 Try
-                    Using aform As priForm = t.AFORM
-                        Dim ex As Exception = Nothing
-                        aform.Post(ex)
-                        If Not TypeOf ex Is apiResponse Then Throw (ex)
-                        With TryCast(ex, apiResponse)
-                            For Each MSG As apiError In .msgs
-                                If Not MSG.Loaded Then
-                                    log.LogData.AppendFormat("Line {0}: {1}.", MSG.Line, MSG.message).AppendLine()
-                                    Throw New Exception(MSG.message)
+                    Using f As New ALINE_ONE(Assembly.GetExecutingAssembly)
+                        With f.AddRow()
+                            .SERIALNAME = t.WONumber
+                            .ACTNAME = t.Operation
+                            If Not .Post Then Throw .Exception
 
-                                End If
-                            Next
+                            Select Case t.SourceTransaction
+                                Case OutboundTransaction.eSourceTransaction.BuildRecord
+                                    With .TRANSORDER_S.AddRow
+                                        .PARTNAME = t.Part
+                                        .SERIALNAME = t.InventoryPackNo
+                                        .WARHSNAME = t.Location
+                                        .QUANT = t.Quantity
+                                        If Not .Post Then Throw .Exception
 
-                            objX.WriteElementString("ErpProcessingStatus", "Processed")
-                            objX.WriteElementString("ErrorMessage", "")
+                                    End With
+
+                                Case OutboundTransaction.eSourceTransaction.InventoryUsage
+                                    With .TRANSORDER_S.AddRow
+                                        .PARTNAME = t.Part
+                                        .QUANT = t.Quantity
+                                        If Not .Post Then Throw .Exception
+
+                                    End With
+
+                                Case Else 'OutboundTransaction.eSourceTransaction.WOCompletion
+                                    For Each iConsumed As Inventory In t.InventoryConsumed
+                                        With .TRANSORDER_S.AddRow
+                                            .PARTNAME = iConsumed.InventoryPackPart
+                                            .SERIALNAME = iConsumed.InventoryPackNo
+                                            .QUANT = iConsumed.Quantity
+                                            If Not .Post Then Throw .Exception
+
+                                        End With
+
+                                    Next
+
+                                    For Each iCreated As Inventory In t.InventoryCreated
+                                        With .TRANSORDER_S.AddRow
+                                            .PARTNAME = iCreated.InventoryPackPart
+                                            .SERIALNAME = iCreated.InventoryPackNo
+                                            .QUANT = iCreated.Quantity
+                                            If Not .Post Then Throw .Exception
+
+                                        End With
+
+                                    Next
+
+                            End Select
 
                         End With
 
+                        objX.WriteElementString("ErpProcessingStatus", "Processed")
+                        objX.WriteElementString("ErrorMessage", "")
+
                     End Using
+
 
                 Catch ex As Exception
                     objX.WriteElementString("ErpProcessingStatus", "Error")
